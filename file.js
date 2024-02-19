@@ -9,6 +9,7 @@ const playBtn = $('.btn-toggle-play');
 const progress = $('#progress');
 const nextBtn = $('.btn-next');
 const prevBtn = $('.btn-prev');
+const randomBtn = $('.btn-random');
 
 
 
@@ -16,6 +17,7 @@ const prevBtn = $('.btn-prev');
 const app = {
     currentIndex: 0,
     isPlaying: false,
+    isRandom: false,
     songs: [
         {
             name: 'Từng quen',
@@ -26,7 +28,7 @@ const app = {
         }, {
             name: '3107',
             singer: 'WN',
-            path: './assets/music/3107.mp3',
+            path: './assets/music/Id072019-WN.mp3',
             image: './assets/img/3107jpg.jpg',
             lyrics: '',
         }, {
@@ -59,7 +61,7 @@ const app = {
             singer: 'O.lew',
             path: './assets/music/RoiTaSeNgamPhaoHoaCungNhau-OlewVietNam-8485329.mp3',
             image: './assets/img/roitasengamphaohoacungnhau.jpg',
-            lyrics: '',e
+            lyrics: '',
         },
         {
             name: 'Vài câu nói có khiến người thay đổi',
@@ -68,20 +70,7 @@ const app = {
             image: './assets/img/vaicaunoicokhiennguoithaydoi.jpg',
             lyrics: '',
         },
-        {
-            name: '3107',
-            singer: 'WN',
-            path: './assets/music/3107.mp3',
-            image: './assets/img/3107jpg.jpg',
-            lyrics: '',
-        },
-        {
-            name: '3107',
-            singer: 'WN',
-            path: './assets/music/3107.mp3',
-            image: './assets/img/3107jpg.jpg',
-            lyrics: '',
-        },
+
     ],
     render: function () {
         const htmls = this.songs.map(song => {
@@ -107,6 +96,7 @@ const app = {
             }
         });
     },
+
     handleEvents: function () {
         const _this = this;
         const cdWidth = cd.offsetWidth;
@@ -119,7 +109,6 @@ const app = {
             duration: 10000,
             iterations: Infinity
         })
-
         cdThumbAnimate.pause();
 
         // Xử lí phóng to thu nhỏ CD 
@@ -179,6 +168,19 @@ const app = {
             audio.play();
         }
 
+        // khi pre song
+        prevBtn.onclick = function () {
+            _this.prevSong();
+            audio.play();
+        }
+
+        // khi random song
+        randomBtn.onclick = function () {
+            _this.isRandom = !_this.isRandom;
+            randomBtn.classList.toggle('active', _this.isRandom);
+            _this.PlayRandomSong();
+            audio.play();
+        }
 
 
     },
@@ -194,8 +196,27 @@ const app = {
     nextSong: function () {
         this.currentIndex++;
         if (this.currentIndex >= this.songs.length) {
-            this.currentSong = 0;
+            this.currentIndex = 0;
         }
+        this.loadCurrentSong();
+    },
+
+    prevSong: function () {
+        this.currentIndex--;
+        if (this.currentIndex <= 0) {
+            this.currentIndex = this.songs.length - 1;
+        }
+        this.loadCurrentSong();
+    },
+
+    PlayRandomSong: function () {
+        let newIndex
+        do {
+            newIndex = Math.floor(Math.random() * this.songs.length);
+
+        } while (newIndex === this.currentIndex);
+
+        this.currentIndex = newIndex;
         this.loadCurrentSong();
     },
 
@@ -216,6 +237,4 @@ const app = {
 }
 app.start()
 
-function addStyle() {
-    $(".modal").setAttribute("style", "display: none;");
-}
+
