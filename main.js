@@ -6,11 +6,14 @@ const author = $('.song-artist');
 const cdThumb = $('.cd-thumb');
 const audio = $('#audio');
 const cd = $('.cd');
+
 const playBtn = $('.btn-toggle-play');
 const progress = $('#progress');
 const nextBtn = $('.btn-next');
 const prevBtn = $('.btn-prev');
 const randomBtn = $('.btn-random');
+const repeatBtn = $('.btn-repeat');
+
 const playSongName = $('.play-song-name');
 const playSongAvt = $('.play-avt');
 const playSongArtist = $('.play-song-artists');
@@ -26,6 +29,8 @@ const app = {
     currentIndex: 0,
     isPlaying: false,
     isRandom: false,
+    isRepeat: false,
+    // isMuted: false,
     songs: [
         {
             name: 'Từng quen',
@@ -119,7 +124,7 @@ const app = {
             </div>
             `
         })
-        $('.otherList .row').innerHTML = htmls.join('\n');
+        $('.other-list .row').innerHTML = htmls.join('\n');
 
 
     },
@@ -169,6 +174,8 @@ const app = {
         audio.onplay = function () {
             _this.isPlaying = true;
             player.classList.add('playing');
+            $("#play-main").classList.remove('d-none');
+            $("#pause-main").classList.add('d-none');
             cdThumbAnimate.play();
 
         }
@@ -177,6 +184,8 @@ const app = {
         audio.onpause = function () {
             _this.isPlaying = false;
             player.classList.remove('playing');
+            $("#play-main").classList.add('d-none');
+            $("#pause-main").classList.remove('d-none');
             cdThumbAnimate.pause()
         }
 
@@ -215,45 +224,70 @@ const app = {
             audio.play();
         }
 
+        // Xử lý lặp lại
+        repeatBtn.onclick = function () {
+            _this.isRepeat = !_this.isRepeat;
+            repeatBtn.classList.toggle('active', _this.isRepeat);
+
+        }
+
+        //Xử lý khi bài hát kết thúc 
+        audio.onended = function () {
+            nextBtn.onclick();
+        };
+
+
+
         volume.oninput = function () {
-            let sliderValue = volume.value;
-            volume.style.background = `linear-gradient(to right, var(--color-theme) ${sliderValue}%, #4d4d4d ${sliderValue}%)`;
+            _this.updateVolumeState(volume.value / 100);
         }
 
+        // Xử lý sự kiện khi click vào nút Mute
         mute.onclick = function () {
-            audio.volume = 0;
-            $('.playbar__volumne').classList.add('mute');
-            volumeProgress.value = 0;
-            volumeProgress.style.background = `linear-gradient(to right, var(--color-theme) ${0}%, #4d4d4d ${0}%)`;
+            const sliderValue = 0;
+            volumeProgress.value = sliderValue;
+            volumeProgress.style.background = `linear-gradient(to right, var(--color-theme) ${sliderValue}%, #4d4d4d ${sliderValue}%)`;
+            _this.updateVolumeState(0);
         }
 
+        // Xử lý sự kiện khi click vào nút Unmute
         unmute.onclick = function () {
-            audio.volume = _this.volumeAmount;
-            $('.playbar__volumne').classList.remove('mute');
-            volumeProgress.value = _this.volumeAmount * 100;
-            volumeProgress.style.background = `linear-gradient(to right, var(--color-theme) ${_this.volumeAmount * 100}%, #4d4d4d ${_this.volumeAmount * 100}%)`;
+            const sliderValue = 100;
+            volumeProgress.value = sliderValue;
+            volumeProgress.style.background = `linear-gradient(to right, var(--color-theme) ${sliderValue}%, #4d4d4d ${sliderValue}%)`;
+            _this.updateVolumeState(_this.volumeAmount);
         }
 
+        // Xử lý sự kiện khi thay đổi âm lượng từ thanh trượt
         volumeProgress.onchange = function () {
-
-            audio.volume = volumeProgress.value / 100;
-
-            if (volumeProgress.value == 0) {
-                if (!$('.playbar-volume').classList.contains('mute')) {
-                    $('.playbar-volume').classList.add('mute');
-                }
-            }
-            else {
-                _this.volumeAmount = volumeProgress.value / 100;
-                if ($('.playbar-volume').classList.contains('mute')) {
-                    $('.playbar-volume').classList.remove('mute');
-                }
-            }
+            const volume = volumeProgress.value / 100;
+            _this.volumeAmount = volume;
+            _this.updateVolumeState(volume);
         }
 
 
 
     },
+
+    updateVolumeState: function (volume) {
+        audio.volume = volume;
+        const volumePercent = volume * 100;
+        const isMuted = volume === 0;
+
+        volumeProgress.style.background = `linear-gradient(to right, var(--color-theme) ${volumePercent}%, #4d4d4d ${volumePercent}%)`;
+
+        // Cập nhật trạng thái nút mute/unmute và icon
+        if (isMuted) {
+            mute.classList.add('d-none');
+            unmute.classList.remove('d-none');
+        } else {
+            $('.playbar-volume').classList.remove('mute');
+            mute.classList.remove('d-none');
+            unmute.classList.add('d-none');
+        }
+
+    },
+
 
     loadCurrentSong: function () {
 
@@ -296,6 +330,11 @@ const app = {
 
         this.currentIndex = newIndex;
         this.loadCurrentSong();
+    },
+
+    progressInput: function () {
+        let sliderValue = item.value;
+        item.style.background = `linear-gradient(to right, var(--color-theme) ${sliderValue}%, #4d4d4d ${sliderValue}%)`;
     },
 
 

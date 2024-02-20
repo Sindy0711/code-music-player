@@ -227,3 +227,21 @@ header h2 {
 .playbar-volume {
     padding-top: 16px;
 }
+
+#mute:hover,
+#unmute:hover,
+#play-main:hover,
+#pause-main:hover {
+    animation: scaleUp 0.2s forwards;
+
+}
+
+@keyframes scaleUp {
+    from {
+        scale: 1;
+    }
+
+    to {
+        scale: 1.4;
+    }
+}
