@@ -1,7 +1,8 @@
 $ = document.querySelector.bind(document);
 $$ = document.querySelectorAll.bind(document);
 const player = $('.player');
-const heading = $('header h2');
+const heading = $('.song-heading');
+const author = $('.song-artist');
 const cdThumb = $('.cd-thumb');
 const audio = $('#audio');
 const cd = $('.cd');
@@ -10,6 +11,13 @@ const progress = $('#progress');
 const nextBtn = $('.btn-next');
 const prevBtn = $('.btn-prev');
 const randomBtn = $('.btn-random');
+const playSongName = $('.play-song-name');
+const playSongAvt = $('.play-avt');
+const playSongArtist = $('.play-song-artists');
+const volumeProgress = $('.volume-amount');
+const volume = $('.volume-amount');
+const mute = $('#mute');
+const unmute = $('#unmute');
 
 
 
@@ -70,24 +78,50 @@ const app = {
             image: './assets/img/vaicaunoicokhiennguoithaydoi.jpg',
             lyrics: '',
         },
+        {
+            name: 'Vài câu nói có khiến người thay đổi',
+            singer: 'GREY D',
+            path: './assets/music/Vaicaunoicokhiennguoithaydoi-GREYDDoanTheLanTlinh-7533673.mp3',
+            image: './assets/img/vaicaunoicokhiennguoithaydoi.jpg',
+            lyrics: '',
+        }, {
+            name: 'Vài câu nói có khiến người thay đổi',
+            singer: 'GREY D',
+            path: './assets/music/Vaicaunoicokhiennguoithaydoi-GREYDDoanTheLanTlinh-7533673.mp3',
+            image: './assets/img/vaicaunoicokhiennguoithaydoi.jpg',
+            lyrics: '',
+        }, {
+            name: 'Vài câu nói có khiến người thay đổi',
+            singer: 'GREY D',
+            path: './assets/music/Vaicaunoicokhiennguoithaydoi-GREYDDoanTheLanTlinh-7533673.mp3',
+            image: './assets/img/vaicaunoicokhiennguoithaydoi.jpg',
+            lyrics: '',
+        }, {
+            name: 'Vài câu nói có khiến người thay đổi',
+            singer: 'GREY D',
+            path: './assets/music/Vaicaunoicokhiennguoithaydoi-GREYDDoanTheLanTlinh-7533673.mp3',
+            image: './assets/img/vaicaunoicokhiennguoithaydoi.jpg',
+            lyrics: '',
+        },
 
     ],
     render: function () {
         const htmls = this.songs.map(song => {
             return `
-            <div class="song">
-                <div class="thumb" style="background-image: url('${song.image}')"></div>
-                <div class="body">
-                    <h3 class="title">${song.name}</h3>
-                    <p class="author">${song.singer}</p>
-                </div>
-                <div class="option">
-                    <i class="fas fa-ellipsis-h"></i>
+            <div class="song col-4">
+                <div class="song-cover">
+                    <div class="thumb" style="background-image: url('${song.image}')"></div>
+                    <div class="body">
+                        <h3 class="title text-white">${song.name}</h3>
+                        <p class="author text-white">${song.singer}</p>
+                    </div>
                 </div>
             </div>
             `
         })
-        $('.playlist').innerHTML = htmls.join('\n')
+        $('.otherList .row').innerHTML = htmls.join('\n');
+
+
     },
     defineProperties: function () {
         Object.defineProperty(this, 'currentSong', {
@@ -99,8 +133,6 @@ const app = {
 
     handleEvents: function () {
         const _this = this;
-        const cdWidth = cd.offsetWidth;
-
 
         //  Xử lý CD quay / dừng
         const cdThumbAnimate = cdThumb.animate([
@@ -111,15 +143,16 @@ const app = {
         })
         cdThumbAnimate.pause();
 
+
         // Xử lí phóng to thu nhỏ CD 
-        document.onscroll = () => {
-            const scrolltop = window.scrollY || document.documentElement.scrollTop;
-            const newCdWidth = cdWidth - scrolltop;
+        // document.onscroll = () => {
+        //     const scrolltop = window.scrollY || document.documentElement.scrollTop;
+        //     const newCdWidth = cdWidth - scrolltop;
 
-            cd.style.width = newCdWidth > 0 ? newCdWidth + 'px' : 0;
-            cd.style.opacity = newCdWidth / cdWidth;
+        //     cd.style.width = newCdWidth > 0 ? newCdWidth + 'px' : 0;
+        //     cd.style.opacity = newCdWidth / cdWidth;
 
-        }
+        // }
 
         // Xử lý khi play
 
@@ -182,6 +215,43 @@ const app = {
             audio.play();
         }
 
+        volume.oninput = function () {
+            let sliderValue = volume.value;
+            volume.style.background = `linear-gradient(to right, var(--color-theme) ${sliderValue}%, #4d4d4d ${sliderValue}%)`;
+        }
+
+        mute.onclick = function () {
+            audio.volume = 0;
+            $('.playbar__volumne').classList.add('mute');
+            volumeProgress.value = 0;
+            volumeProgress.style.background = `linear-gradient(to right, var(--color-theme) ${0}%, #4d4d4d ${0}%)`;
+        }
+
+        unmute.onclick = function () {
+            audio.volume = _this.volumeAmount;
+            $('.playbar__volumne').classList.remove('mute');
+            volumeProgress.value = _this.volumeAmount * 100;
+            volumeProgress.style.background = `linear-gradient(to right, var(--color-theme) ${_this.volumeAmount * 100}%, #4d4d4d ${_this.volumeAmount * 100}%)`;
+        }
+
+        volumeProgress.onchange = function () {
+
+            audio.volume = volumeProgress.value / 100;
+
+            if (volumeProgress.value == 0) {
+                if (!$('.playbar-volume').classList.contains('mute')) {
+                    $('.playbar-volume').classList.add('mute');
+                }
+            }
+            else {
+                _this.volumeAmount = volumeProgress.value / 100;
+                if ($('.playbar-volume').classList.contains('mute')) {
+                    $('.playbar-volume').classList.remove('mute');
+                }
+            }
+        }
+
+
 
     },
 
@@ -189,7 +259,15 @@ const app = {
 
         heading.textContent = this.currentSong.name;
         cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`;
+        author.textContent = this.currentSong.singer;
+
         audio.src = this.currentSong.path;
+
+        playSongName.textContent = this.currentSong.name;
+        playSongAvt.style.backgroundImage = `url('${this.currentSong.image}')`;
+        playSongArtist.textContent = this.currentSong.singer;
+
+
 
     },
 
@@ -219,6 +297,7 @@ const app = {
         this.currentIndex = newIndex;
         this.loadCurrentSong();
     },
+
 
 
     start: function () {

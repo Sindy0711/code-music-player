@@ -1,0 +1,20 @@
+:root {
+    --color-theme: #1DB954;
+    --primary-color: #ec1f55;
+    --text-color: white;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: inherit;
+}
+
+body {
+    background-color: black;
+}
+
+html {
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}

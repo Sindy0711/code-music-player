@@ -2,95 +2,138 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Music player</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
-    integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
-    crossorigin="anonymous" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
     integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="apple-touch-icon" sizes="57x57" href="./assets/favicon/apple-icon-57x57.png" />
-  <link rel="apple-touch-icon" sizes="60x60" href="./assets/favicon/apple-icon-60x60.png" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./assets/favicon/apple-icon-72x72.png" />
-  <link rel="apple-touch-icon" sizes="76x76" href="./assets/favicon/apple-icon-76x76.png" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./assets/favicon/apple-icon-114x114.png" />
-  <link rel="apple-touch-icon" sizes="120x120" href="./assets/favicon/apple-icon-120x120.png" />
-  <link rel="apple-touch-icon" sizes="144x144" href="./assets/favicon/apple-icon-144x144.png" />
-  <link rel="apple-touch-icon" sizes="152x152" href="./assets/favicon/apple-icon-152x152.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-icon-180x180.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="./assets/favicon/android-icon-192x192.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="96x96" href="./assets/favicon/favicon-96x96.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png" />
-  <link rel="manifest" href="./assets/favicon/manifest.json" />
-  <meta name="msapplication-TileColor" content="#ffffff" />
-  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-  <meta name="theme-color" content="#ffffff" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+  <meta name="theme-color" content="#ffffff">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/base.css">
   <link rel="stylesheet" href="./assets/css/music.css" />
+
 </head>
 
 <body>
-  <div class="player">
-    <!-- Dashboard -->
-    <div class="dashboard">
-      <!-- Header -->
-      <header>
-        <h4></h4>
-        <h2></h2>
-      </header>
 
-      <!-- CD -->
-      <div class="cd">
-        <div class="cd-thumb"></div>
+  <div class="player container">
+    <div class="row">
+      <div class="col-6 ">
+        <div class="dashboard-container">
+          <div class="dashboard">
+            <h4>Current Song</h4>
+            <!-- CD -->
+            <div class="cd">
+              <div class="cd-thumb"></div>
+            </div>
+            <h2 class=" song-heading text-center"></h2>
+            <h2 class=" song-artist text-center"></h2>
+
+
+          </div>
+        </div>
+
       </div>
+      <!-- Playlist -->
 
-      <!-- Control -->
-      <div class="control">
-        <div class="btn btn-repeat">
-          <i class="fas fa-redo"></i>
-        </div>
-        <div class="btn btn-prev">
-          <i class="fas fa-step-backward"></i>
-        </div>
-        <div class="btn btn-toggle-play">
-          <i class="fas fa-pause icon-pause"></i>
-          <i class="fas fa-play icon-play"></i>
-        </div>
-        <div class="btn btn-next">
-          <i class="fas fa-step-forward"></i>
-        </div>
-        <div class="btn btn-random">
-          <i class="fas fa-random"></i>
-        </div>
-      </div>
+      <div class="col-6 playlist">
+        <div class="row">
+          <h3 class="random-list__heading">Random playlist</h3>
+          <div class="">
+            <div class="">
+              <div class="">
+                <div style="" class=""></div>
+                <span class=""></span>
+              </div>
+              <i class=""></i>
+              <i class=""></i>
+            </div>
+          </div>
 
-      <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100" />
+        </div>
 
-      <audio id="audio" src=""></audio>
-    </div>
+        <div class="row otherList">
+          <h3 class="">Other songs
+            <div class="row"></div>
+          </h3>
 
-    <!-- Playlist -->
-    <div class="playlist"></div>
+        </div>
 
-    <!-- Modal -->
-    <div class="modal">
-      <div class="modal-body">
-        <button class="close-btn"><i class="fa-solid fa-xmark"></i></button>
-        <a href="https://fullstack.edu.vn/"><img
-            src="https://files.fullstack.edu.vn/f8-prod/manual_uploads/htmlcss-pro/position-modal-img.png" alt="" /></a>
       </div>
     </div>
   </div>
-  <script src="./file.js" type="application/javascript"></script>
+  </div>
+  </div>
+
+  <div class="playbar container-fluid">
+    <!-- Control -->
+    <div class="row">
+
+      <div class="col-4">
+        <div class="play-song-info ">
+          <div class="row">
+            <div class="col-2 ">
+              <div style="background-image: url('./assets/img/tungquen.jpg');" class="play-avt"></div>
+            </div>
+            <div class="play-song-text col">
+              <p class="play-song-name">Từng quen</p>
+              <p class="play-song-artists">Wren Evan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="control col-4">
+        <div class="row align-items-center ">
+          <div class="btn btn-repeat col-2">
+            <i class="fas fa-redo icon-white"></i>
+          </div>
+          <div class="btn btn-prev col-2">
+            <i class="fas fa-step-backward icon-white"></i>
+          </div>
+          <div class="btn btn-toggle-play col-4">
+            <i class="fa-solid fa-circle-pause fa-2x  icon-white"></i>
+            <!-- <i class="fa-solid fa-circle-play"></i> -->
+          </div>
+          <div class="btn btn-next col-2">
+            <i class="fas fa-step-forward icon-white"></i>
+          </div>
+          <div class="btn btn-random col-2">
+            <i class="fas fa-random icon-white"></i>
+          </div>
+          <input id="progress" class="progress col-12" type="range" value="0" step="1" min="0" max="100" />
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="playbar-volume row">
+          <div class="col-8"></div>
+          <i id="mute" class="fa-solid fa-volume-high col-1 icon-white"></i>
+          <i id="unmute" class="fa-solid fa-volume-xmark hide icon-white col d-none"></i>
+          <input type="range" class="volume-amount col-3" value="100" oninput="app.progressInput(this)">
+        </div>
+      </div>
+    </div>
+  </div>
+  <audio id="audio" src=""></audio>
+  <!-- Modal -->
+  <div class="modal">
+    <div class="modal-body">
+      <button class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+      <a href="https://fullstack.edu.vn/"><img
+          src="https://files.fullstack.edu.vn/f8-prod/manual_uploads/htmlcss-pro/position-modal-img.png" alt="" /></a>
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <script src="./main.js" type="application/javascript"></script>
 </body>
 
 </html>
